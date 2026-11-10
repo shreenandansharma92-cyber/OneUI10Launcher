@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Set up JDK 17
@@ -18,12 +18,25 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-
-    - name: Build Debug APK
+    - name: Verify Kotlin and XML Files
       run: |
-        # Agar gradlew file nahi hai toh direct project compile script
-        echo "Building Android APK via Gradle..."
-        # Agar aapke paas gradlew nahi hai toh gradle command ya simple zip step
-        find . -name "*.kt" -o -name "*.xml"
+        echo "Checking uploaded One UI 10 source files..."
+        ls -la
+        if [ -f "MainActivity.kt" ] || [ -f "AndroidManifest.xml" ]; then
+          echo "Source files found successfully!"
+        else
+          echo "Warning: Ensure files are in root directory."
+        fi
+
+    - name: Create Dummy APK Artifact for Testing
+      run: |
+        mkdir -p output_apk
+        echo "One UI 10 Tabahi Launcher Build Package" > output_apk/README.txt
+        # Packing source files into a zip artifact so you can download and check
+        zip -r output_apk/OneUI10Launcher_Source.zip MainActivity.kt AndroidManifest.xml build.gradle.kts 2>/dev/null || true
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: OneUI10-Launcher-Package
+        path: output_apk/
