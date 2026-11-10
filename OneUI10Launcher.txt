@@ -1,7 +1,0 @@
-OneUI10Launcher/
-├── AndroidManifest.xml
-└── src/
-    └── com/
-        └── tabahi/
-            └── oneui10launcher/
-                └── MainActivity.kt
