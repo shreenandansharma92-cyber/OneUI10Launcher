@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout Code
@@ -18,14 +18,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-
-    - name: Build Debug APK with Gradle
+    - name: Build with Gradle on macOS
       run: |
         cd app
-        # Gradle wrapper generate karke APK compile karega
-        gradle wrapper --gradle-version 8.5
+        # Gradle wrapper fix
+        gradle wrapper --gradle-version 8.5 || gradle -v
         chmod +x gradlew || true
         ./gradlew assembleDebug --no-daemon
 
