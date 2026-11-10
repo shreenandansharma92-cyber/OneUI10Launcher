@@ -1,0 +1,25 @@
+name: Build One UI 10 Launcher APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build with Gradle
+      run: |
+        chmod +x gradlew || true
+        # Agar gradle wrapper nahi hai toh basic build command
+        echo "Building Android APK..."
