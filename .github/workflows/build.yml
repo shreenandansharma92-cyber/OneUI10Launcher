@@ -23,10 +23,9 @@ jobs:
 
     - name: Build Debug APK with Gradle
       run: |
-        # Agar gradle wrapper file nahi hai, toh basic android project structure generate karke build karega
-        if [ ! -f "gradlew" ]; then
-          gradle wrapper --gradle-version 8.5
-        fi
+        cd app
+        # Gradle wrapper generate karke APK compile karega
+        gradle wrapper --gradle-version 8.5
         chmod +x gradlew || true
         ./gradlew assembleDebug --no-daemon
 
